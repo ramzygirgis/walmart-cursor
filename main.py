@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 from google import genai
 import argparse
 from google.genai import types
+from prompts import system_prompt
+from config import model_name
 
 load_dotenv()
 api_key = os.environ.get("GEMINI_API_KEY")
@@ -16,7 +18,11 @@ args = parser.parse_args()
 
 messages = [types.Content(role="user", parts=[types.Part(text = args.user_prompt)])]
 
-response = client.models.generate_content(model = "gemini-2.5-flash", contents = messages)
+response = client.models.generate_content(
+    model=model_name,
+    contents=messages,
+    config=types.GenerateContentConfig(system_instruction=system_prompt),
+)
 
 prompt_tokens = response.usage_metadata.prompt_token_count
 response_tokens = response.usage_metadata.candidates_token_count
@@ -27,10 +33,3 @@ if args.verbose:
     print(f'Response tokens: {response_tokens}')
 print('Response:')
 print(response.text)
-
-# def main():
-#     print("Hello from we-got-cursor-at-home!")
-
-
-# if __name__ == "__main__":
-#     main()
