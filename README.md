@@ -127,7 +127,7 @@ Possible solutions:
 * switch to a cheaper model such as:
 
 ```
-gemini-2.0-flash
+gemini-2.5-flash-lite
 ```
 
 * wait for rate limits to reset
